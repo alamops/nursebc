@@ -9,6 +9,7 @@
     "run-js": "node dist/index.js"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "4.13.3",
     "lodash": "^4.17.21",
