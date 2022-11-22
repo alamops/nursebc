@@ -1,15 +1,23 @@
-import { FC, memo, useCallback, useState } from 'react';
-import { Box, Card, CardBody, Heading, Text, VStack } from '@chakra-ui/react'
+import { FC, memo, useCallback, useMemo, useState } from 'react';
+import { Card, CardBody, Heading, Text, VStack } from '@chakra-ui/react'
 import { ShiftBoxProps } from './types';
 import { formatDateTime } from '../../helpers/date';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleShift } from '../../redux/comparison';
+import { getSelectedShifts } from '../../redux/comparison/selectors';
 
 const ShiftBox: FC<ShiftBoxProps> = ({ shift }) => {
-  const [isSelected, setSelected] = useState<boolean>(false)
-  
+  const dispatch = useDispatch()
+
+  const selectedShifts = useSelector(getSelectedShifts)
+
+  const isSelected = useMemo((): boolean => {
+    return !!selectedShifts.find(item => item.id === shift.id)
+  }, [selectedShifts, shift])
+
   const handleCardClick = useCallback(() => {
-    // TODO:
-    setSelected(!isSelected)
-  }, [isSelected])
+    dispatch(toggleShift(shift))
+  }, [shift])
 
   return (
     <Card

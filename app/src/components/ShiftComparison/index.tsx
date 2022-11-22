@@ -1,20 +1,41 @@
-import { FC, memo, useState, useEffect, useCallback } from 'react';
-import { Button, HStack, VStack, Text, Tooltip } from '@chakra-ui/react'
+import { FC, memo, useCallback, useMemo } from 'react';
+import { Button, VStack, Text, Tooltip, Flex } from '@chakra-ui/react'
 import { ViewIcon } from '@chakra-ui/icons'
+import { useDispatch, useSelector } from 'react-redux';
+import { getIsComparing, getSelectedShifts, getShiftsComparisonResult } from '../../redux/comparison/selectors';
+import { compareShifts } from '../../redux/comparison/thunks';
+import { AppDispatch } from '../../redux';
 
 const ShiftComparison: FC = () => {
-  const [ value, setValue ] = useState<string>('');
+  const dispatch = useDispatch<AppDispatch>()
+
+  const selectedShifts = useSelector(getSelectedShifts)
+  const shiftsComparisonResult = useSelector(getShiftsComparisonResult)
+  const isComparing = useSelector(getIsComparing)
+
+  const {
+    overlapMinutes,
+    maximumOverlapThreshold,
+    exceedsOverlapThreshold
+  } = useMemo(() => {
+    return {
+      overlapMinutes: shiftsComparisonResult?.overlapMinutes ?? '-',
+      maximumOverlapThreshold: shiftsComparisonResult?.maximumOverlapThreshold ?? '-',
+      exceedsOverlapThreshold: shiftsComparisonResult ? shiftsComparisonResult.exceedsOverlapThreshold ? 'True' : 'False' : '-'
+    }
+  }, [shiftsComparisonResult])
+
+  const isCompareButtonAvailable = useMemo((): boolean => {
+    return selectedShifts.length === 2
+  }, [selectedShifts])
 
   const handleClick = useCallback(() => {
-    setValue('');
-  }, [ setValue ]);
-
-  useEffect(() => {
-    setValue('');
-  }, [ setValue ]);
+    dispatch(compareShifts())
+  }, [ dispatch ]);
 
   return (
-    <HStack 
+    <Flex 
+      flexDirection={['column', 'column', 'row']}
       gap={2} 
       width='full' 
       backgroundColor='white' 
@@ -24,15 +45,15 @@ const ShiftComparison: FC = () => {
     >
       <VStack gap={1} alignItems='flex-start'>
         <Text>
-          <b>Overlap Minutes:</b> -
+          <b>Overlap Minutes:</b> {overlapMinutes}
         </Text>
 
         <Text>
-          <b>Max Overlap Threshold:</b> -
+          <b>Max Overlap Threshold:</b> {maximumOverlapThreshold}
         </Text>
 
         <Text>
-          <b>Exceeds Overlap Threshold:</b> -
+          <b>Exceeds Overlap Threshold:</b> {exceedsOverlapThreshold}
         </Text>
       </VStack>
 
@@ -40,13 +61,20 @@ const ShiftComparison: FC = () => {
         hasArrow
         label="Select two shifts for comparison" 
         aria-label="Compare Button Helper"
-        isDisabled={false}
+        isDisabled={isCompareButtonAvailable}
       >
-        <Button colorScheme='blue' leftIcon={<ViewIcon />} loadingText='Comparing...'>
+        <Button 
+          colorScheme='blue' 
+          leftIcon={<ViewIcon />} 
+          isLoading={isComparing}
+          loadingText='Comparing...'
+          onClick={handleClick}
+          isDisabled={!isCompareButtonAvailable}
+        >
           Compare
         </Button>
       </Tooltip>
-    </HStack>
+    </Flex>
   );
 }
 
