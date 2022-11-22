@@ -37,7 +37,7 @@ const ShiftsList: FC = () => {
   }
 
   return (
-    <HStack gap={10} flexWrap='wrap' justifyContent='center'>
+    <HStack gap={5} flexWrap='wrap' justifyContent='flex-start' paddingX={5}>
       {shifts?.map(shift => (
         <ShiftBox key={shift.id} shift={shift} />
       ))}
