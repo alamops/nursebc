@@ -2,7 +2,7 @@ import moment from 'moment';
 import { ShiftsRepository } from './utils/repository';
 import { Request, Response } from "express";
 import { isNil } from 'lodash'
-import { Shift } from './models/types';
+import { Shift, ShiftsComparisonResult } from './models/types';
 
 const getOverlapMinutes = (shifts: Shift[]): number => {
   const difference = moment(shifts[0].endAt).diff(shifts[1].startAt, 'minutes')
@@ -40,12 +40,11 @@ export default async (request: Request, response: Response) => {
     response
       .status(200)
       .send({
-        shiftA: shifts[0],
-        shiftB: shifts[1],
+        shifts,
         overlapMinutes,
         maximumOverlapThreshold,
         exceedsOverlapThreshold: overlapMinutes > maximumOverlapThreshold,
-      })
+      } as ShiftsComparisonResult)
   } catch (e) {
     console.error(e)
     response.status(400).send('WRONG_REQUEST')

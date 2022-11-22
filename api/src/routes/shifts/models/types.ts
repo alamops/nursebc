@@ -16,3 +16,10 @@ export interface Shift {
 export interface ShiftsComparisonRequest {
   shifts: number[]
 }
+
+export interface ShiftsComparisonResult {
+  shifts: Shift[]
+  overlapMinutes: number
+  maximumOverlapThreshold: number
+  exceedsOverlapThreshold: boolean
+}
