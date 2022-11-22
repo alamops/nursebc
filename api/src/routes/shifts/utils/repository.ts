@@ -12,7 +12,7 @@ export class ShiftsRepository extends Repository<Shift> {
                     qos.shift_id
                     ,(qos.shift_date + qos.start_time) as start_time
                     ,(qos.shift_date + qos.end_time) as end_time
-                    ,f.facility_name
+                    ,f.*
                   FROM 
                     question_one_shifts AS qos
                   LEFT JOIN 
@@ -38,7 +38,7 @@ export class ShiftsRepository extends Repository<Shift> {
                     qos.shift_id
                     ,(qos.shift_date + qos.start_time) as start_time
                     ,(qos.shift_date + qos.end_time) as end_time
-                    ,f.facility_name
+                    ,f.*
                   FROM 
                     question_one_shifts AS qos
                   LEFT JOIN 
@@ -60,9 +60,9 @@ export class ShiftsRepository extends Repository<Shift> {
           .query(`
                   SELECT 
                     qos.shift_id
-                    ,(date qos.shift_date + time qos.start_time) as start_time
-                    ,(date qos.shift_date + time qos.end_time) as end_time
-                    ,f.facility_name
+                    ,(qos.shift_date + qos.start_time) as start_time
+                    ,(qos.shift_date + qos.end_time) as end_time
+                    ,f.*
                   FROM 
                     question_one_shifts AS qos
                   LEFT JOIN 

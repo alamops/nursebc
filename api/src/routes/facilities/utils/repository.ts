@@ -16,8 +16,7 @@ export class FacilitiesRepository {
       )
       
       SELECT 
-        f.facility_id
-        ,f.facility_name
+        f.*
         ,j.nurse_type_needed 
         ,j.total_number_nurses_needed 
         ,thj.total_hired
