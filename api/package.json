@@ -4,7 +4,7 @@
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "build": "rm -rf ./dist && npx tsc",
+    "build": "rm -rf ./dist && npx tsc && cp .env ./dist/.env",
     "run-ts": "npx ts-node src/index.ts",
     "run-js": "node dist/index.js"
   },
