@@ -1,4 +1,4 @@
-import { FC, memo, useCallback, useMemo, useState } from 'react';
+import { FC, memo, useCallback, useMemo } from 'react';
 import { Card, CardBody, Heading, Text, VStack } from '@chakra-ui/react'
 import { ShiftBoxProps } from './types';
 import { formatDateTime } from '../../helpers/date';
