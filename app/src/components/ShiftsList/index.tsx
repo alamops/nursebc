@@ -16,8 +16,6 @@ const ShiftsList: FC = () => {
       })
       .catch(e => {
         console.error(e)
-        // TODO: show toast up
-
         setShifts(null)
         setErrorMessage('Oops! Something wrong happened while trying to fetch the shift records.')
       })
