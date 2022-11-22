@@ -1,17 +1,20 @@
-import { FC, memo, useCallback, useMemo } from 'react';
-import { Button, VStack, Text, Tooltip, Flex } from '@chakra-ui/react'
+import { FC, memo, useCallback, useEffect, useMemo } from 'react';
+import { Button, VStack, Text, Tooltip, Flex, useToast } from '@chakra-ui/react'
 import { ViewIcon } from '@chakra-ui/icons'
 import { useDispatch, useSelector } from 'react-redux';
-import { getIsComparing, getSelectedShifts, getShiftsComparisonResult } from '../../redux/comparison/selectors';
+import { getIsComparing, getSelectedShifts, getShiftsComparisonError, getShiftsComparisonResult } from '../../redux/comparison/selectors';
 import { compareShifts } from '../../redux/comparison/thunks';
 import { AppDispatch } from '../../redux';
+import { isNil } from 'lodash';
 
 const ShiftComparison: FC = () => {
   const dispatch = useDispatch<AppDispatch>()
+  const toast = useToast()
 
   const selectedShifts = useSelector(getSelectedShifts)
   const shiftsComparisonResult = useSelector(getShiftsComparisonResult)
   const isComparing = useSelector(getIsComparing)
+  const comparisonError = useSelector(getShiftsComparisonError)
 
   const {
     overlapMinutes,
@@ -32,6 +35,18 @@ const ShiftComparison: FC = () => {
   const handleClick = useCallback(() => {
     dispatch(compareShifts())
   }, [ dispatch ]);
+
+  useEffect(() => {
+    if (!isNil(comparisonError) && comparisonError.length > 0) {
+      toast({
+        title: 'Comparison Error',
+        description: comparisonError,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+  }, [comparisonError])
 
   return (
     <Flex 
