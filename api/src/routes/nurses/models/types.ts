@@ -5,7 +5,7 @@ export interface RawNurse {
 }
 
 export interface RawNurseHiringAvailability extends RawNurse {
-  hiring_availability: number
+  hiring_availability: string
 }
 
 export interface Nurse {

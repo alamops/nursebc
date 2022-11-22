@@ -14,8 +14,8 @@ export class FacilityTransfomer {
       name: data.facility_name,
       nurseTypeNeeded: data.nurse_type_needed,
       totalNeeded: data.total_number_nurses_needed,
-      totalHired: data.total_hired,
-      remainingSpots: data.remaining_spots,
+      totalHired: parseInt(data.total_hired),
+      remainingSpots: parseInt(data.remaining_spots),
     }
   }
 }

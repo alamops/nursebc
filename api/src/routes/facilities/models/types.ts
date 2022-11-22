@@ -6,8 +6,8 @@ export interface RawFacility {
 export interface RawFacilityAvailability extends RawFacility {
   nurse_type_needed: string
   total_number_nurses_needed: number
-  total_hired: number
-  remaining_spots: number
+  total_hired: string
+  remaining_spots: string
 }
 
 export interface Facility {

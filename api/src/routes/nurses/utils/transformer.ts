@@ -14,7 +14,7 @@ export class NurseTransfomer {
       id: data.nurse_id,
       name: data.nurse_name,
       type: data.nurse_type,
-      hiringAvailability: data.hiring_availability
+      hiringAvailability: parseInt(data.hiring_availability)
     }
   }
 }
