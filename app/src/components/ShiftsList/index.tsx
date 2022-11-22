@@ -1,5 +1,5 @@
 import { FC, memo, useState, useEffect } from 'react';
-import { HStack, Text } from '@chakra-ui/react'
+import { HStack, Flex, Text } from '@chakra-ui/react'
 import { Shift } from '../../../../api/src/routes/shifts/models/types';
 import ShiftBox from '../ShiftBox';
 
@@ -35,11 +35,16 @@ const ShiftsList: FC = () => {
   }
 
   return (
-    <HStack gap={5} flexWrap='wrap' justifyContent='flex-start' paddingX={5}>
+    <Flex
+      flexDirection={['column', 'row']}
+      justifyContent={['center', 'flex-start']}
+      gap={5} 
+      flexWrap='wrap' 
+      paddingX={5}>
       {shifts?.map(shift => (
         <ShiftBox key={shift.id} shift={shift} />
       ))}
-    </HStack>
+    </Flex>
   );
 }
 
